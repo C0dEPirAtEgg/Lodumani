@@ -1,7 +1,7 @@
+import sys
+
 T = int(input())
 
 for i in range(1,T+1):
-    A,B = input().split()
-    A = int(A)
-    B = int(B)
+    A,B = map(int,sys.stdin.readline().strip().split())
     print(f"Case #{i}: {A} + {B} = {A+B}")
