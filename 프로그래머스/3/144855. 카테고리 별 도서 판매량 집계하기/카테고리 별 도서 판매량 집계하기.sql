@@ -1,0 +1,20 @@
+WITH CTE1 AS (
+    SELECT
+        book_id,
+        SUM(sales) AS SALES
+    FROM BOOK_SALES
+    WHERE
+        LEFT(SALES_DATE,7) = '2022-01'
+    GROUP BY
+        book_id
+)
+SELECT
+    CATEGORY,
+    SUM(SALES) AS TOTAL_SALES
+FROM BOOK AS B
+INNER JOIN CTE1 AS C1
+ON B.book_id = C1.book_id
+GROUP BY
+    CATEGORY
+ORDER BY
+    CATEGORY
