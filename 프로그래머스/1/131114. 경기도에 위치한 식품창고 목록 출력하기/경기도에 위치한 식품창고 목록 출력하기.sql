@@ -1,9 +1,10 @@
--- 코드를 입력하세요
-SELECT 
-        warehouse_id, 
-        warehouse_name, 
-        address, 
-        IFNULL(freezer_yn,'N') AS FREEZER_YN
+SELECT
+    WAREHOUSE_ID,
+    WAREHOUSE_NAME,
+    ADDRESS,
+    IFNULL(FREEZER_YN, 'N') AS FREEZER_YN
 FROM FOOD_WAREHOUSE
-WHERE warehouse_name LIKE '%경기%'
-ORDER BY 1 
+WHERE
+    SUBSTRING(WAREHOUSE_NAME,4,2) = '경기'
+ORDER BY
+    WAREHOUSE_ID
