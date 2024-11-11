@@ -1,8 +1,10 @@
 SELECT
     ID,
     CASE
-        WHEN SIZE_OF_COLONY <= 100 THEN 'LOW'
-        WHEN SIZE_OF_COLONY > 100 AND SIZE_OF_COLONY <= 1000 THEN 'MEDIUM'
-        WHEN SIZE_OF_COLONY > 1000 THEN 'HIGH'
+        WHEN size_of_colony <= 100 THEN 'LOW'
+        WHEN size_of_colony > 100 AND size_of_colony <= 1000 THEN 'MEDIUM'
+        WHEN size_of_colony > 1000 THEN 'HIGH'
     END AS SIZE
-FROM ECOLI_DATA
+FROM ecoli_data
+ORDER BY
+    ID
