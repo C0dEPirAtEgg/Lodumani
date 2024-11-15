@@ -12,7 +12,7 @@ WITH jan_sales AS (
         AND sales_date LIKE "2022-01%"
     GROUP BY
         book_id
-), book_acount AS (
+), book_account AS (
     SELECT
         b.category,
         b.author_id,
@@ -29,7 +29,7 @@ SELECT
     a.author_name,
     ba.category,
     ba.sales AS TOTAL_SALES
-FROM book_acount AS ba
+FROM book_account AS ba
 INNER JOIN author AS a
 ON ba.author_id = a.author_id
 ORDER BY
