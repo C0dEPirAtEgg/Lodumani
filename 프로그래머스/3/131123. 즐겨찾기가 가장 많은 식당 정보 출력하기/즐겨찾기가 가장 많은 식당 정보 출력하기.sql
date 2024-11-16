@@ -6,26 +6,33 @@
 # 데이터 특징 : ?X
 # 한 : 734, 일 : 230 양 : 102 분식 : 151 중식 : 20
 
-WITH FAVORITES_FOOD AS (
-    SELECT
-        FOOD_TYPE AS FT,
-        MAX(FAVORITES) AS FR
-    FROM
-        REST_INFO
-    GROUP BY
-        FT
-)
+-- 음식종류별로 즐겨찾기수가 가장 많은 식당의 음식 종류, ID, 식당 이름, 즐겨찾기수
+-- food_type | rest_id | rest_name | favorites
 
+WITH max_favorites AS (
+    SELECT
+        food_type,
+        MAX(favorites) AS favorites
+    FROM rest_info
+    GROUP BY
+        food_type
+)
 SELECT
-    FOOD_TYPE,
-    REST_ID,
-    REST_NAME,FAVORITES
-FROM REST_INFO AS RI
-LEFT JOIN FAVORITES_FOOD AS FF
-ON RI.FAVORITES = FF.FR
+    ri.food_type,
+    ri.rest_id,
+    ri.rest_name,
+    ri.favorites
+FROM rest_info AS ri
+INNER JOIN max_favorites AS mf
+ON ri.food_type = mf.food_type
 WHERE
     1=1
-    AND FAVORITES = FR
-    AND FOOD_TYpE = FT
+    AND ri.favorites = mf.favorites
 ORDER BY
-    FOOD_TYPE DESC
+    ri.food_type DESC
+
+
+
+
+
+
