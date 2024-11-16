@@ -9,30 +9,21 @@
 -- 음식종류별로 즐겨찾기수가 가장 많은 식당의 음식 종류, ID, 식당 이름, 즐겨찾기수
 -- food_type | rest_id | rest_name | favorites
 
-WITH max_favorites AS (
-    SELECT
-        food_type,
-        MAX(favorites) AS favorites
-    FROM rest_info
-    GROUP BY
-        food_type
-)
 SELECT
-    ri.food_type,
-    ri.rest_id,
-    ri.rest_name,
-    ri.favorites
-FROM rest_info AS ri
-INNER JOIN max_favorites AS mf
-ON ri.food_type = mf.food_type
+    r.FOOD_TYPE,
+    r.REST_ID,
+    r.REST_NAME,
+    r.FAVORITES
+FROM
+    REST_INFO r
 WHERE
-    1=1
-    AND ri.favorites = mf.favorites
+    r.FAVORITES = (
+        SELECT
+            MAX(f.FAVORITES)
+        FROM
+            REST_INFO f
+        WHERE
+            f.FOOD_TYPE = r.FOOD_TYPE
+    )
 ORDER BY
-    ri.food_type DESC
-
-
-
-
-
-
+    r.FOOD_TYPE DESC;
