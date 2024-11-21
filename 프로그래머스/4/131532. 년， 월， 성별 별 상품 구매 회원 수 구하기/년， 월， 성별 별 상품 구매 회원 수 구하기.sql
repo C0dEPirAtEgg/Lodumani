@@ -3,22 +3,26 @@
 # 데이터의 기간 : X
 # 사용할 테이블 : USER_INFO, ONLINE_SALE
 # Join KEY : USER_ID
-# 데이터 특징 :
-
+# 데이터 특징 : X
+# 년, 월, 성별 별로 상품을 구매한 회원수를 집계하는 성별이 null 값이면 제외
+# 년 | 월 | 성별(user_id로 구분이 가능) | count(user) 
 
 SELECT
-    YEAR(SAlES_DATE) AS YEAR,
-    MONTH(SALES_DATE) AS MONTH,
+    YEAR(os.sales_date) AS YEAR,
+    MONTH(os.sales_date) AS MONTH,
     GENDER,
-    COUNT(DISTINCT OS.USER_ID) AS USERS
+    COUNT(DISTINCT os.user_id) AS USERS
 FROM ONLINE_SALE AS OS
-LEFT JOIN USER_INFO AS UI
-ON OS.USER_ID = UI.USER_ID
+INNER JOIN USER_INFO AS UI
+ON UI.user_id = OS.user_id
 WHERE
-    GENDER IS NOT NULL
+    1=1
+    AND gender IS NOT NULL
 GROUP BY
     YEAR,
     MONTH,
     GENDER
-
-    
+ORDER BY
+    YEAR,
+    MONTH,
+    GENDER
