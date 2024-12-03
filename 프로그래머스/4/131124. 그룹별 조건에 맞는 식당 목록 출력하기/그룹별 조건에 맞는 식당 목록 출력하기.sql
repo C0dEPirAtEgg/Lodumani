@@ -2,6 +2,7 @@
 -- MEMBER_NAME | REVIEW_TEXT | REVIEW_DATE
 -- 두개의 테이블을 JOIN 하려면 REVIEW_ID를 사용해야한다.
 -- REST_REVIEW 테이블에서 가장 많이 작성한 한명을찾아 member_profile 테이블과 연결해서 이름
+
 WITH 1st_review AS (
     SELECT
         MEMBER_ID,
@@ -26,3 +27,42 @@ ON 1r.MEMBER_ID = MP.MEMBER_ID
 ORDER BY
     REVIEW_DATE,
     REVIEW_TEXT
+
+-- 문제풀이2 (다른 사람 풀이)
+# WITH ct AS(
+#     SELECT MEMBER_ID,
+#            DENSE_RANK() OVER(ORDER BY COUNT(MEMBER_ID) DESC) AS rk
+#     FROM REST_REVIEW 
+#     GROUP BY MEMBER_ID)
+
+# SELECT M.MEMBER_NAME,REVIEW_TEXT,
+# DATE_FORMAT(REVIEW_DATE,'%Y-%m-%d') REVIEW_DATE
+# FROM MEMBER_PROFILE AS M
+# INNER JOIN ct AS C ON C.MEMBER_ID=M.MEMBER_ID
+# INNER JOIN REST_REVIEW AS R ON M.MEMBER_ID=R.MEMBER_ID
+# WHERE rk=1
+# ORDER BY REVIEW_DATE,REVIEW_TEXT
+
+# -- 문제풀이3 (다른 사람 풀이)
+# WITH ReviewCounts AS (
+#     SELECT MEMBER_ID, COUNT(*) AS review_count
+#     FROM REST_REVIEW
+#     GROUP BY MEMBER_ID
+# ),
+# TopReviewers AS (
+#     SELECT MEMBER_ID
+#     FROM ReviewCounts
+#     WHERE review_count = (SELECT MAX(review_count) FROM ReviewCounts)
+# )
+# SELECT 
+#     MP.MEMBER_NAME,
+#     RR.REVIEW_TEXT,
+#     DATE_FORMAT(RR.REVIEW_DATE, '%Y-%m-%d') AS REVIEW_DATE
+# FROM 
+#     REST_REVIEW RR
+# JOIN 
+#     TopReviewers TR ON RR.MEMBER_ID = TR.MEMBER_ID
+# JOIN 
+#     MEMBER_PROFILE MP ON RR.MEMBER_ID = MP.MEMBER_ID
+# ORDER BY 
+#     RR.REVIEW_DATE, RR.REVIEW_TEXT;
