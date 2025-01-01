@@ -12,7 +12,7 @@ WHERE
     1=1
     AND SUBSTR(RI.ADDRESS,1,2) = '서울'
 GROUP BY
-    2
+    1,2,3,4,5
 ORDER BY
     SCORE DESC,
     RI.FAVORITES DESC
