@@ -1,18 +1,12 @@
-SELECT 
-    USER_ID,
-    PRODUCT_ID
-FROM (
 SELECT
-    USER_ID,
-    PRODUCT_ID,
-    COUNT(user_id) AS CNT
+    user_id,
+    product_id
 FROM ONLINE_SALE
 GROUP BY
-    USER_ID,
-    PRODUCT_ID
+    1,
+    2
 HAVING
-    CNT >= 2
+    COUNT(*) >= 2
 ORDER BY
     user_id,
     product_id DESC
-) AS sub1
