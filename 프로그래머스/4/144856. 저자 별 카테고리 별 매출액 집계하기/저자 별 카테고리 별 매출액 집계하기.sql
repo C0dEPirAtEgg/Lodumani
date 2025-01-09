@@ -1,37 +1,29 @@
--- book, author, book_sales
--- 2022년 1월의 도서 판매 데이터를 기준으로 저자 별 카테고리 별 매출액 (total_sales = 판매량 * 판매가)
--- author_id, author_name, category, sales
+-- 2022년 1월 도서 판매 데이터를 기준으로 저자 별, 카테고리 별 매출액 을 구하여
+-- AUTHOR_ID | AUTHOR_NAME | CATEGORY | SALES 출력하는 SQL문 작성
 
-WITH jan_sales AS (
+WITH cte1 AS (
     SELECT
-        book_id,
-        SUM(sales) AS sum_sales
-    FROM book_sales
+        author_id,
+        category,
+        SUM(price * sales) AS TOTAL_SALES
+    FROM BOOK AS B
+    INNER JOIN BOOK_SALES AS BS
+    ON B.book_id = BS.book_id
     WHERE
-        1=1
-        AND sales_date LIKE "2022-01%"
+    1=1
+    AND EXTRACT(YEAR FROM BS.SALES_DATE) = 2022
+    AND EXTRACT(MONTH FROM BS.SALES_DATE) = 1
     GROUP BY
-        book_id
-), book_account AS (
-    SELECT
-        b.category,
-        b.author_id,
-        SUM(b.price * ja.sum_sales) AS sales
-    FROM book AS b
-    LEFT JOIN jan_sales AS ja
-    ON b.book_id = ja.book_id
-    GROUP BY
-        b.category,
-        b.author_id
+        1,2
 )
 SELECT
-    a.author_id,
-    a.author_name,
-    ba.category,
-    ba.sales AS TOTAL_SALES
-FROM book_account AS ba
-INNER JOIN author AS a
-ON ba.author_id = a.author_id
+    c.author_id,
+    A.author_name,
+    c.category,
+    c.total_sales
+FROM cte1 AS c
+INNER JOIN AUTHOR AS A
+ON c.author_id = A.author_id
 ORDER BY
-    a.author_id,
-    ba.category DESC
+    c.author_id,
+    category DESC
