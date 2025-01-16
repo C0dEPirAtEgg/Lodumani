@@ -1,7 +1,14 @@
+# SELECT
+#     name
+# FROM ANIMAL_INS
+# ORDER BY
+#     DATETIME 
+# LIMIT
+#     1
+
 SELECT
-    name
+    NAME
 FROM ANIMAL_INS
 ORDER BY
-    DATETIME 
-LIMIT
-    1
+    DATETIME
+LIMIT 1
