@@ -1,9 +1,37 @@
+# SELECT
+#     ID,
+#     LENGTH
+# FROM FISH_INFO
+# ORDER BY
+#     LENGTH DESC,
+#     ID
+# LIMIT
+#     10
+
 SELECT
     ID,
     LENGTH
 FROM FISH_INFO
+WHERE
+    1=1
+    AND LENGTH IS NOT NULL
 ORDER BY
     LENGTH DESC,
     ID
 LIMIT
     10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
