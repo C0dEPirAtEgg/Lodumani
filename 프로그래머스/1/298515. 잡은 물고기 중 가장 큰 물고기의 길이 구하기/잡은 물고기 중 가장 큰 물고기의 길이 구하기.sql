@@ -1,3 +1,24 @@
+# SELECT
+#     CONCAT(MAX(LENGTH),'cm') AS MAX_LENGTH
+# FROM FISH_INFO
+
 SELECT
-    CONCAT(MAX(LENGTH),'cm') AS MAX_LENGTH
+    CONCAT(MAX(LENGTH), 'cm') AS MAX_LENGTH
 FROM FISH_INFO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
