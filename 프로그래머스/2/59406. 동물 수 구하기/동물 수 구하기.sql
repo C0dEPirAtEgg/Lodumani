@@ -1,3 +1,23 @@
+# SELECT
+#     COUNT(ANIMAL_ID) AS count
+# FROM ANIMAL_INS
 SELECT
-    COUNT(ANIMAL_ID) AS count
+    COUNT(*) AS COUNT
 FROM ANIMAL_INS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
