@@ -9,21 +9,81 @@
 -- 음식종류별로 즐겨찾기수가 가장 많은 식당의 음식 종류, ID, 식당 이름, 즐겨찾기수
 -- food_type | rest_id | rest_name | favorites
 
+# SELECT
+#     ri.food_type,
+#     ri.rest_id,
+#     ri.rest_name,
+#     ri.favorites
+# FROM rest_info AS ri
+# INNER JOIN (SELECT
+#                 food_type,
+#                 MAX(favorites) AS favorites
+#             FROM rest_info
+#             GROUP BY
+#                 food_type) AS mf
+# ON ri.food_type = mf.food_type
+# AND ri.favorites = mf.favorites
+# ORDER BY
+#     food_type DESC
+
+# WITH max_favorites AS (
+#     SELECT
+#         food_type,
+#         MAX(favorites) AS favorites
+#     FROM rest_info
+#     GROUP BY
+#         food_type
+# )
+# SELECT
+#     fi.food_type,
+#     fi.rest_id,
+#     fi.rest_name,
+#     fi.favorites
+# FROM rest_info  AS fi
+# INNER JOIN max_favorites AS mf
+# ON fi.food_type = mf.food_type
+# AND fi.favorites = mf.favorites
+# ORDER BY
+#     fi.food_type DESC
+
+# 쿼리를 작성하는 목표, 확인할 지표 : REST_INFO 테이블에서 음식 종류별로 즐겨찾기수가 가장 많은 식당의 음식 종류, ID, 식당 이름, 즐겨찾기수를 조회하는 SQL문을 작성해주세요.
+# 쿼리 계산 방법 :
+# 쿼리 결과 : 음식종류 | ID | 식당 이름| 즐겨찾기수
+# 데이터의 기간 : X
+# 사용할 테이블 : REST_INFO
+# Join KEY : X
+# 데이터 특징 : X
+
+WITH CTE1 AS (
+    SELECT
+        FOOD_TYPE,
+        MAX(FAVORITES) AS MAX_FAVORITES
+    FROM REST_INFO
+    GROUP BY
+        FOOD_TYPE
+)
 SELECT
-    r.FOOD_TYPE,
-    r.REST_ID,
-    r.REST_NAME,
-    r.FAVORITES
-FROM
-    REST_INFO r
-WHERE
-    r.FAVORITES = (
-        SELECT
-            MAX(f.FAVORITES)
-        FROM
-            REST_INFO f
-        WHERE
-            f.FOOD_TYPE = r.FOOD_TYPE
-    )
+    R.FOOD_TYPE,
+    R.REST_ID,
+    R.REST_NAME,
+    R.FAVORITES
+FROM REST_INFO AS R
+INNER JOIN CTE1 AS C
+ON R.FOOD_TYPE = C.FOOD_TYPE
+AND R.FAVORITES = C.MAX_FAVORITES
+
 ORDER BY
-    r.FOOD_TYPE DESC;
+    FOOD_TYPE DESC
+    
+
+
+
+
+
+
+
+
+
+
+
+
