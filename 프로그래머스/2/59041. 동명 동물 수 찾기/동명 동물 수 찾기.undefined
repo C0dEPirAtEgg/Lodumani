@@ -1,12 +1,41 @@
+# SELECT
+#     NAME,
+#     COUNT(ANIMAL_ID) AS count
+# FROM ANIMAL_INS
+# WHERE
+#     NAME IS NOT NULL
+# GROUP BY
+#     NAME
+# HAVING
+#     count >= 2
+# ORDER BY
+#     NAME
+
 SELECT
     NAME,
-    COUNT(ANIMAL_ID) AS count
+    COUNT(*) AS cnt
 FROM ANIMAL_INS
 WHERE
-    NAME IS NOT NULL
+    1=1
+    AND NAME IS NOT NULL
 GROUP BY
     NAME
 HAVING
-    count >= 2
+    cnt >= 2
 ORDER BY
     NAME
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
