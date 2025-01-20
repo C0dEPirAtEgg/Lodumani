@@ -1,13 +1,36 @@
+# SELECT
+#     MCDP_CD AS '진료과코드',
+#     COUNT(*) AS '5월예약건수'
+# FROM APPOINTMENT
+# WHERE
+#     1=1
+#     AND YEAR(APNT_YMD) = 2022
+#     AND MONTH(APNT_YMD) = 5
+# GROUP BY
+#     MCDP_CD
+# ORDER BY
+#     2,
+#     1
+
 SELECT
-    MCDP_CD AS '진료과코드',
+    MCDP_CD AS '진료과 코드',
     COUNT(*) AS '5월예약건수'
 FROM APPOINTMENT
 WHERE
     1=1
-    AND YEAR(APNT_YMD) = 2022
-    AND MONTH(APNT_YMD) = 5
+    AND EXTRACT(YEAR FROM APNT_YMD) = 2022
+    AND EXTRACT(MONTH FROM APNT_YMD) = 5
 GROUP BY
     MCDP_CD
 ORDER BY
-    2,
-    1
+    COUNT(*),
+    MCDP_CD
+
+
+
+
+
+
+
+
+
