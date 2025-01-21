@@ -8,3 +8,36 @@ GROUP BY
     FISH_NAME
 ORDER BY
     FISH_COUNT DESC
+
+# WITH FISH_CNT AS (
+#     SELECT
+#         FISH_TYPE,
+#         COUNT(*) AS FISH_COUNT
+#     FROM FISH_INFO
+#     GROUP BY
+#         FISH_TYPE
+# )
+# SELECT
+#     F2.FISH_COUNT,
+#     F1.FISH_NAME
+# FROM FISH_NAME_INFO AS F1
+# LEFT JOIN FISH_CNT AS F2
+# ON F1.FISH_TYPE = F2.FISH_TYPE
+# ORDER BY
+#     F2.FISH_COUNT DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
