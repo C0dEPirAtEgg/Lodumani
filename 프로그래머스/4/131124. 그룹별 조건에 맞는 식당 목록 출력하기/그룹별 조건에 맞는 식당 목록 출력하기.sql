@@ -3,30 +3,30 @@
 -- 두개의 테이블을 JOIN 하려면 REVIEW_ID를 사용해야한다.
 -- REST_REVIEW 테이블에서 가장 많이 작성한 한명을찾아 member_profile 테이블과 연결해서 이름
 
-WITH 1st_review AS (
-    SELECT
-        MEMBER_ID,
-        COUNT(*) AS cnt
-    FROM REST_REVIEW
-    GROUP BY
-        MEMBER_ID
-    ORDER BY
-        cnt DESC
-    LIMIT
-        1
-)
-SELECT
-    MP.MEMBER_NAME,
-    RR.REVIEW_TEXT,
-    DATE_FORMAT(RR.REVIEW_DATE,'%Y-%m-%d')
-FROM 1st_review AS 1r
-INNER JOIN REST_REVIEW AS RR
-ON 1r.MEMBER_ID = RR.MEMBER_ID
-INNER JOIN MEMBER_PROFILE AS MP
-ON 1r.MEMBER_ID = MP.MEMBER_ID
-ORDER BY
-    REVIEW_DATE,
-    REVIEW_TEXT
+# WITH 1st_review AS (
+#     SELECT
+#         MEMBER_ID,
+#         COUNT(*) AS cnt
+#     FROM REST_REVIEW
+#     GROUP BY
+#         MEMBER_ID
+#     ORDER BY
+#         cnt DESC
+#     LIMIT
+#         1
+# )
+# SELECT
+#     MP.MEMBER_NAME,
+#     RR.REVIEW_TEXT,
+#     DATE_FORMAT(RR.REVIEW_DATE,'%Y-%m-%d')
+# FROM 1st_review AS 1r
+# INNER JOIN REST_REVIEW AS RR
+# ON 1r.MEMBER_ID = RR.MEMBER_ID
+# INNER JOIN MEMBER_PROFILE AS MP
+# ON 1r.MEMBER_ID = MP.MEMBER_ID
+# ORDER BY
+#     REVIEW_DATE,
+#     REVIEW_TEXT
 
 -- 문제풀이2 (다른 사람 풀이)
 # WITH ct AS(
@@ -66,3 +66,46 @@ ORDER BY
 #     MEMBER_PROFILE MP ON RR.MEMBER_ID = MP.MEMBER_ID
 # ORDER BY 
 #     RR.REVIEW_DATE, RR.REVIEW_TEXT;
+
+# 쿼리를 작성하는 목표, 확인할 지표 : MEMBER_PROFILE와 REST_REVIEW 테이블에서 리뷰를 가장 많이 작성한 회원의 리뷰들을 조회하는 SQL문
+# 쿼리 계산 방법 : REST_REVIEW 테이블에서 윈도우 함수를 사용하여 가장 많이 리뷰를 작성한 회원을 구한테이블을 만들어주고 MEMBER_PROFILE 테이블과 JOIN후 REST_REVIEW 테이블과 JOIN하여 결과 구하기
+# 쿼리 결과 : MEMBER_NAME | REVEIW_TEXT | REVIEW_DATE 
+# 데이터의 기간 :
+# 사용할 테이블 :
+# Join KEY :
+# 데이터 특징 :
+
+# COUNT(*) OVER (PARTITION BY MEMBER_ID) AS ROW_COUNT,
+# RANK() OVER (ORDER BY COUNT(*) OVER (PARTITION BY MEMBER_ID) DESC) AS RANK
+
+WITH MEMBER_REVIEW_COUNT AS (
+    SELECT
+        MEMBER_ID,
+        COUNT(*) AS CNT
+    FROM REST_REVIEW
+    GROUP BY
+        MEMBER_ID
+), MEMBER_REVIEW_COUNT_RANK AS (
+    SELECT
+        MEMBER_ID,
+        RANK() OVER(ORDER BY CNT DESC) AS RANKING
+    FROM MEMBER_REVIEW_COUNT
+)
+SELECT
+    M2.MEMBER_NAME,
+    R.REVIEW_TEXT,
+    DATE_FORMAT(R.REVIEW_DATE,'%Y-%m-%d') AS REVIEW_DATE
+FROM MEMBER_REVIEW_COUNT_RANK AS M1
+INNER JOIN MEMBER_PROFILE AS M2
+ON M1.MEMBER_ID = M2.MEMBER_ID
+INNER JOIN REST_REVIEW AS R
+ON M1.MEMBer_ID = R.MEMBER_ID
+WHERE
+    1=1
+    AND M1.RANKING = 1
+ORDER BY
+    REVIEW_DATE,
+    REVIEW_TEXT
+    
+    
+
