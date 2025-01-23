@@ -6,20 +6,52 @@
 # 데이터 특징 :
 
 
-WITH OS AS (
+# WITH OS AS (
+#     SELECT
+#         product_id,
+#         SUM(sales_amount) AS SUM_S
+#     FROM OFFLINE_SALE
+#     GROUP BY
+#         product_id
+# )
+# SELECT
+#     PRODUCT_CODE,
+#     price * SUM_S AS SALES
+# FROM PRODUCT AS P
+# LEFT JOIN OS AS O
+# ON P.product_id = O.product_id
+# ORDER BY
+#     SALES DESC,
+#     PRODUCT_CODE
+
+WITH OFF_LINE AS (
     SELECT
-        product_id,
-        SUM(sales_amount) AS SUM_S
+        PRODUCT_ID,
+        SUM(SALES_AMOUNT) AS CNT
     FROM OFFLINE_SALE
     GROUP BY
-        product_id
+        PRODUCT_ID
 )
 SELECT
     PRODUCT_CODE,
-    price * SUM_S AS SALES
+    P.PRICE * O.CNT AS SALES
 FROM PRODUCT AS P
-LEFT JOIN OS AS O
-ON P.product_id = O.product_id
+INNER JOIN OFF_LINE AS O
+ON P.PRODUCT_ID = O.PRODUCT_ID
 ORDER BY
     SALES DESC,
     PRODUCT_CODE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
