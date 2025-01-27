@@ -41,17 +41,3 @@ ON P.PRODUCT_ID = O.PRODUCT_ID
 ORDER BY
     SALES DESC,
     PRODUCT_CODE
-
-
-
-
-
-
-
-
-
-
-
-
-
-
