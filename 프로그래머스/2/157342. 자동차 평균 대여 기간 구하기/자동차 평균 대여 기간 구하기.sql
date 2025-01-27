@@ -1,0 +1,20 @@
+# 쿼리를 작성하는 목표, 확인할 지표 : CAR_RENTAL_COMPANY_RENTAL_HISTORY 테이블에서 평균 대여 기간이 7일 이상인 자동차들의 자동차ID와  평균 댇여 기간 (컬럼명 : AVER)
+# 쿼리 계산 방법 :
+# 쿼리 결과 : ID | AVERAGE_DURATION
+# 데이터의 기간 : x
+# 사용할 테이블 : CAR_RENTAL_COMPANY_RENTAL_HISTORY
+# Join KEY :
+# 데이터 특징 :
+
+
+SELECT
+    CAR_ID,
+    ROUND(AVG(DATEDIFF(END_DATE, START_DATE) + 1),1) AS AVERAGE_DURATION
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+GROUP BY
+    CAR_ID
+HAVING
+    AVERAGE_DURATION >= 7
+ORDER BY
+    AVERAGE_DURATION DESC,
+    CAR_ID DESC
