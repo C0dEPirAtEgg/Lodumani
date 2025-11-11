@@ -1,6 +1,8 @@
 SELECT
-    ROUND(AVG(DAILY_FEE),0) AS AVERAGE_FEE
+    ROUND(AVG(daily_fee),0) AS AVERAGE_FEE
 FROM CAR_RENTAL_COMPANY_CAR
 WHERE
     1=1
-    AND CAR_TYPE = "SUV"
+    AND car_type = 'SUV'
+GROUP BY
+    car_type
