@@ -70,3 +70,47 @@ WHERE
 ORDER BY
     SCORE DESC,
     FAVORITES DESC
+# WITH review_avg_score AS (
+#     SELECT
+#         REST_ID,
+#         ROUND(AVG(REVIEW_SCORE),2) AS avg_score
+#     FROM REST_REVIEW
+#     GROUP BY
+#         REST_ID
+# ), Seoul_REST AS (
+#     SELECT
+#         REST_ID,
+#         REST_NAME,
+#         FOOD_TYPE,
+#         FAVORITES,
+#         ADDRESS
+#     FROM REST_INFO
+#     WHERE
+#         1=1
+#         AND ADDRESS LIKE '서울%'
+# )
+# SELECT
+#     sr.*,
+#     ras.avg_score
+# FROM Seoul_rest AS sr
+# LEFT JOIN review_avg_score AS ras
+# ON sr.rest_id = ras.rest_id
+# ORDER BY
+#     ras.avg_score DESC,
+#     sr.favorites DESC
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
