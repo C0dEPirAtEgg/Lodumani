@@ -46,71 +46,55 @@
 # Join KEY : REST_ID
 # 데이터 특징 : X
 
-WITH REST_REVIEW_SCORE AS (
-    SELECT
-        REST_ID,
-        ROUND(AVG(REVIEW_SCORE),2) AS SCORE
-    FROM REST_REVIEW
-    GROUP BY
-        REST_ID
-)
-SELECT
-    RI.REST_ID,
-    RI.REST_NAME,
-    RI.FOOD_TYPE,
-    RI.FAVORITES,
-    RI.ADDRESS,
-    RRS.SCORE
-FROM REST_INFO AS RI
-INNER JOIN REST_REVIEW_SCORE AS RRS
-ON RI.REST_ID = RRS.REST_ID
-WHERE
-    1=1
-    AND ADDRESS LIKE '서울%'
-ORDER BY
-    SCORE DESC,
-    FAVORITES DESC
-# WITH review_avg_score AS (
+# WITH REST_REVIEW_SCORE AS (
 #     SELECT
 #         REST_ID,
-#         ROUND(AVG(REVIEW_SCORE),2) AS avg_score
+#         ROUND(AVG(REVIEW_SCORE),2) AS SCORE
 #     FROM REST_REVIEW
 #     GROUP BY
 #         REST_ID
-# ), Seoul_REST AS (
-#     SELECT
-#         REST_ID,
-#         REST_NAME,
-#         FOOD_TYPE,
-#         FAVORITES,
-#         ADDRESS
-#     FROM REST_INFO
-#     WHERE
-#         1=1
-#         AND ADDRESS LIKE '서울%'
 # )
 # SELECT
-#     sr.*,
-#     ras.avg_score
-# FROM Seoul_rest AS sr
-# LEFT JOIN review_avg_score AS ras
-# ON sr.rest_id = ras.rest_id
+#     RI.REST_ID,
+#     RI.REST_NAME,
+#     RI.FOOD_TYPE,
+#     RI.FAVORITES,
+#     RI.ADDRESS,
+#     RRS.SCORE
+# FROM REST_INFO AS RI
+# INNER JOIN REST_REVIEW_SCORE AS RRS
+# ON RI.REST_ID = RRS.REST_ID
+# WHERE
+#     1=1
+#     AND ADDRESS LIKE '서울%'
 # ORDER BY
-#     ras.avg_score DESC,
-#     sr.favorites DESC
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#     SCORE DESC,
+#     FAVORITES DESC
+WITH review_avg_score AS (
+    SELECT
+        REST_ID,
+        ROUND(AVG(REVIEW_SCORE),2) AS avg_score
+    FROM REST_REVIEW
+    GROUP BY
+        REST_ID
+), Seoul_REST AS (
+    SELECT
+        REST_ID,
+        REST_NAME,
+        FOOD_TYPE,
+        FAVORITES,
+        ADDRESS
+    FROM REST_INFO
+    WHERE
+        1=1
+        AND ADDRESS LIKE '서울%'
+)
+SELECT
+    sr.*,
+    ras.avg_score
+FROM Seoul_rest AS sr
+INNER JOIN review_avg_score AS ras
+ON sr.rest_id = ras.rest_id
+ORDER BY
+    ras.avg_score DESC,
+    sr.favorites DESC
