@@ -16,3 +16,13 @@ WHERE
     AND INTAKE_CONDITION = 'Sick'
 ORDER BY
     ANIMAL_ID
+
+
+
+
+
+
+
+
+
+
