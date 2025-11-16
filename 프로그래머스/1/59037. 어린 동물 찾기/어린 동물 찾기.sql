@@ -17,3 +17,15 @@ WHERE
     AND INTAKE_CONDITION != 'Aged'
 ORDER BY
     ANIMAL_ID
+
+
+
+
+
+
+
+
+
+
+
+
