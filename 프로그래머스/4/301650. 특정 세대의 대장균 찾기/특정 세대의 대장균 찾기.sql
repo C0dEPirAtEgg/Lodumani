@@ -33,17 +33,43 @@
 # 한번씩 LEFT JOIN을 할때마다 1~4세대 2~4세대 3~4세대 4세대(4세대가 끝임 이 테이블에서는)
 
 
-SELECT
-    E3.ID
-FROM ECOLI_DATA AS E1
-INNER JOIN ECOLI_DATA AS E2
-ON E1.ID = E2.PARENT_ID
-INNER JOIN ECOLI_DATA AS E3
-ON E2.ID = E3.PARENT_ID
-WHERE
-    1=1
-    AND E1.PARENT_ID IS NULL
-ORDER BY
-    E3.ID
+# SELECT
+#     E3.ID
+# FROM ECOLI_DATA AS E1
+# INNER JOIN ECOLI_DATA AS E2
+# ON E1.ID = E2.PARENT_ID
+# INNER JOIN ECOLI_DATA AS E3
+# ON E2.ID = E3.PARENT_ID
+# WHERE
+#     1=1
+#     AND E1.PARENT_ID IS NULL
+# ORDER BY
+#     E3.ID
 
 # 한번씩 INNER JOIN 을 할때마다 그 세대만 남는다
+
+# 쿼리를 작성하는 목표, 확인할 지표 : 3세대 대장균의 ID를 출력해주세요.
+# 쿼리 계산 방법 :
+# 쿼리 결과 : ID
+# 데이터의 기간 : x
+# 사용할 테이블 : ECOLI_DATA
+# Join KEY :
+# 데이터 특징 : x
+
+
+SELECT
+    E1.ID
+    # E1.PARENT_ID,
+    # E2.ID,
+    # E2.PARENT_ID,
+    # E3.ID,
+    # E3.PARENT_ID
+FROM ECOLI_DATA AS E1
+LEFT JOIN ECOLI_DATA AS E2
+ON E1.PARENT_ID = E2.ID
+LEFT JOIN ECOLI_DATA AS E3
+ON E2.PARENT_ID = E3.ID
+WHERE
+    1=1
+    AND E3.ID IS NOT NULL
+    AND E3.PARENT_ID IS NULL
